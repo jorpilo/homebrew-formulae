@@ -12,7 +12,13 @@ class Yabai < Formula
     man.mkpath
 
     if build.head?
-      system "make", "-j1", "install"
+      if MacOS.version >= :sonoma
+        patch do
+          url "https://gist.githubusercontent.com/jorpilo/da6446b6ee4d72cb492653a3b97b0457/raw/5c4d0e35f9f7221a1277114ccf8756cbb5fc5576/yabai-sonoma.diff"
+          sha256 "ccc75d6c3cfa67ac7ccf3c0c9f55b6c972011486a1b5aa74338af2ebf944d242"
+        end
+      end
+      system "make", "-j4", "install"
     end
 
     bin.install "#{buildpath}/bin/yabai"
